@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        body>div>div>div{
+            background-color: green;
+            height: 50%;
+            width: 50%;
+        }
+        body>div{
+            background-color: orange;
+            width: 50%;
+            height: 250px;
+        }
+        body>div>div{
+            background-color: white;
+            width:50% ;
+            height: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">outer div
+        <div id="div2">inner div
+            <div id="div3">innermost div</div>
+        </div>
+    </div>
+</body>
+    <script>
+        let div=document.getElementById("div1")
+        let div2=document.getElementById("div2")
+        let div3=document.getElementById("div3")
+
+        div.addEventListener("click",()=>{
+            alert(div.innerText)
+
+        })
+        div2.addEventListener("click",()=>{
+            alert(div2.innerText)
+        })
+        div3.addEventListener("click",(event)=>{
+            alert(div3.innerText)
+            event.stopPropagation()
+        })
+        
+    </script>
+</html>

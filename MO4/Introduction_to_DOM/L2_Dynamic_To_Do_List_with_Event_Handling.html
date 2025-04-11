@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        li{
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+        button{
+            border-style: none;
+            border: 1px solid;
+            height: 30px;
+            border-radius: 5px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>make your To - Do List</h1>
+    <input type="text" placeholder="enter task" id="task">
+    <button id="addtask">Add Task</button>
+    <ul></ul>
+</body>
+<script>
+    let task=document.getElementById("task")
+    let addtask=document.getElementById("addtask")
+    let list=document.querySelector("ul")
+        addtask.addEventListener("click",()=>{
+            if (task.value !== ''){
+                let li=document.createElement("li")
+                let progress=document.createElement("span")
+                progress.innerText="inprogress"
+                let delet=document.createElement("button")
+                delet.innerText="Delete"
+                delet.id=task.value+'1'
+
+                let complete=document.createElement("button")
+                complete.id=task.value
+                complete.innerText="complete"
+
+                let hr=document.createElement("hr")
+
+                let span=document.createElement("span")
+                span.innerText=task.value
+                li.append(progress,span,complete,delet)
+                list.appendChild(li)
+              
+                
+                delet.addEventListener("click",()=>{
+                    li.remove()
+                    hr="none"
+                })
+
+                complete.addEventListener("click",()=>{
+                    progress.innerText="completed"
+                    complete.innerText="completed"
+                    complete.style.backgroundColor="green"
+                })
+    
+            }
+            else{
+                alert("add task")
+            }
+            
+            
+
+
+        }) 
+    
+</script>
+</html>

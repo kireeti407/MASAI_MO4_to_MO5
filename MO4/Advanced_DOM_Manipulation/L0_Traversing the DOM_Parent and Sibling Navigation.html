@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <ul id="list">
+          <li id="item1">Item 1</li>
+          <li id="item2">Item 2</li>
+          <li id="item3">Item 3</li>
+        </ul>
+      </div>      
+</body>
+<script>
+    let item2=document.getElementById("item2")
+    let ul=document.getElementById("container")
+    let k=item2.previousSibling
+    item2.addEventListener("click",()=>{
+        alert(ul.innerText)
+        console.log(item2.nextElementSibling.innerText)
+        console.log(item2.previousElementSibling.innerText)
+    })
+    
+</script>
+</html>

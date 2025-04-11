@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        input{
+            height: 40px;
+            width: 200px;
+        }
+        button{
+            height: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <input type="text" id="input1" placeholder="enter color">
+    <input type="text" id="input2" placeholder="enter content">
+    <button id="bg">Change Background</button>
+    <button id="con">Update text</button>
+    <div ></div>
+</body>
+<script>
+    let in1=document.getElementById("input1")
+    let in2=document.getElementById("input2")
+
+    let bg=document.getElementById("bg")
+    let con=document.getElementById('con')
+
+    let div=document.querySelector("div")
+    div.style.width="1fr"
+    div.style.height="200px"
+
+    bg.addEventListener("click",()=>{
+        div.style.backgroundColor=in1.value
+    })
+    con.addEventListener("click",()=>{
+        div.innerText=''
+        div.innerText=in2.value
+    })
+</script>
+</html>

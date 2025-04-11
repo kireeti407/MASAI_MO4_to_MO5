@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+    <button id="add"> add Paragraph</button>
+    <button id="remove">remove Last Paragraph</button>
+</body>
+<script>
+    let div=document.querySelector("div")
+    let add=document.getElementById("add")
+    let remove=document.getElementById("remove")
+
+    add.addEventListener("click",()=>{
+        let p=document.createElement("p")
+        p.innerText= "This is a new paragraph"
+        div.appendChild(p)
+    })
+
+    remove.addEventListener("click",()=>{
+        div.removeChild(div.firstChild)
+    })
+</script>
+</html>

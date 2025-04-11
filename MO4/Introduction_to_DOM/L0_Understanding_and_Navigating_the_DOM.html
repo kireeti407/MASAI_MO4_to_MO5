@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="head"></h1>
+    <p></p>
+    <p></p>
+    <p></p>
+    <div class="container"></div>
+</body>
+<script>
+    let h1=document.getElementById("head")
+    h1.innerText="Welcome to the DOM World!"
+
+    let p=document.getElementsByTagName("p")
+    for(let i=0;i<p.length;i++){
+        p[i].innerText="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium a magni sed. Voluptatem unde sit excepturi deleniti, est, asperiores quae recusandae possimus officia molestias et, accusamus eos quidem. Fuga, totam?"
+    }
+    let krt=document.querySelector(".container")
+    krt.style.width="1fr"
+    krt.style.height="100px"
+    krt.style.backgroundColor="green"
+    
+</script>
+</html>
