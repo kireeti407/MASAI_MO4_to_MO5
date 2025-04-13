@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+        textarea{
+            height: 50px;
+            width: 80%;
+        }
+        button{
+            height: 40px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1 for="area">write what you want</h1>
+    <textarea name="" id="area"></textarea><br>
+    <button id="enter" >Enter</button>
+</body>
+    <script>
+        let data=localStorage.getItem("data")||''
+        let area=document.getElementById("area")
+        let enter=document.getElementById("enter")
+        area.value=data
+        enter.addEventListener("click",()=>{
+            if(area.value == ''){
+                alert("not allow valid data")
+            }
+            else{
+                localStorage.setItem("data",area.value)
+            }
+        })
+    </script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: space-around;
+        }
+        button{
+            width: 100px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <button id="light">Ligth</button><button id="dark">Dark</button><button id="blue">blue</button>
+</body>
+<script>
+    let theme=sessionStorage.getItem("theme")||"white"
+    document.body.style.backgroundColor=theme
+    let light=document.getElementById("light")
+    let dark=document.getElementById("dark")
+    let blue=document.getElementById("blue")
+    light.addEventListener("click",()=>{
+        document.body.style.backgroundColor="white"
+        sessionStorage.setItem("theme","white")
+    })
+    dark.addEventListener("click",()=>{
+        document.body.style.backgroundColor="black"
+        sessionStorage.setItem("theme","black")
+    })
+    blue.addEventListener("click",()=>{
+        document.body.style.backgroundColor="blue"
+        sessionStorage.setItem("theme","blue")
+    })
+    
+</script>
+</html>
