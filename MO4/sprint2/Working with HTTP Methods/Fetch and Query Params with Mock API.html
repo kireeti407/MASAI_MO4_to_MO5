@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,tbody,thead,tr,th,td{
+            border: 1px solid;
+            border-collapse: collapse;
+
+        }
+    </style>
+</head>
+<body>
+    <table >
+        <thead  >
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+    
+</body>
+<script>
+    async function datafetch(){
+        let data=await fetch("https://data-46361-default-rtdb.asia-southeast1.firebasedatabase.app/Users.json")
+        let res=await data.json()
+        let arraydata=Object.entries(res).map(([id,name])=>{
+            return {...name}
+        })
+        let tbody=document.getElementById("tbody")
+        arraydata.forEach((e)=>{
+            let tr=document.createElement("tr")
+            for (let i in e){
+                let th=document.createElement("td")
+                th.innerText=e[i]
+                tr.appendChild(th)
+               
+            }
+            tbody.appendChild(tr)
+        })
+    }
+    datafetch()
+</script>
+</html>
