@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #books,#members{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 80%;
+            margin: auto;
+        }
+        #books>div,#members>div{
+            width: 30%;
+            border:1px solid;
+            background-color: rgb(161, 158, 158);
+            border-radius: 5px;
+            color: rgb(8, 8, 8);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <label>Adding Books</label><br>
+    <input type="text" id="title" placeholder="title">
+    <input type="text" placeholder="author" id="author">
+    <input type="text" placeholder="genre" id="genre">
+    <input type="number" placeholder="publishedYear" id="py">
+    <input type="text" placeholder="avalable" id="avalable">
+    
+    <button onclick="addbook()">add book</button><br>
+    <label>add members</label><br>
+    <input type="text" placeholder="name" id="name">
+    
+    <input type="date" placeholder="publishedYear" id="py">
+    <label for="active">active</label><select name="" id="active">
+        <option value="true">true</option>
+        <option value="false">false</option>
+    </select>
+    <button onclick="addmember()">add member</button>
+    <br>
+    <hr>
+    <label>filtering books:</label>
+
+        <input type="text" id="genre" placeholder="genre">
+        <input type="text" id="author" placeholder="author">
+        <input type="text" id="availability" placeholder="availability">
+        <button onclick="add()">add member</button>
+   <br><br>
+    <label>filtering members:</label>
+    <select name="" id="active">
+        <option value="False">false</option>
+        <option value="True">true</option>
+    </select>
+    <input type="text" id="membershipDate" placeholder="membershipDate">
+    <br><br>
+    <label>sorting books :</label>
+    <select name="" id="sortb">
+        <option value="book-asc">Assending order</option>
+        <option value="book-des">Decending order</option>
+    </select>
+    <br>
+    <label>sorting members:</label>
+    <select name="" id="sortm">
+        <option value="book-asc">Assending order</option>
+        <option value="book-des">Decending order</option>
+    </select><br>
+    <button>sort books</button>
+    <hr>
+    <h1>Books</h1>
+    <div id="books">
+
+    </div>
+    <h1>Members</h1>
+    <div id="members">
+
+    </div>
+    
+    
+</body>
+<script>
+    let members=[]
+    let books=[]
+    async function fetchdata() {
+        let res=await fetch("https://library-management-syste-26d3b-default-rtdb.asia-southeast1.firebasedatabase.app/Books.json")
+        let data=await res.json()
+        let fetchdata=Object.entries(data).map(([id,d])=>{
+            return {id,...d}
+        })
+        books=fetchdata
+        let res2=await fetch("https://library-management-syste-26d3b-default-rtdb.asia-southeast1.firebasedatabase.app/Members.json")
+        let data2=await res2.json()
+        let fetchdata2=Object.entries(data2).map(([id,d])=>{
+            return {id,...d}
+        })
+        members=fetchdata2
+        display()
+    }
+    async function addbook() {
+        console.log("jhjk")
+        let title=document.getElementById("title")
+        let genre=document.getElementById("genre")
+        let author=document.getElementById("author")
+        let py=document.getElementById("py")
+        let available=document.getElementById("avalable")
+        let d={
+            title:title.value,
+            genre:genre.value,
+            author:author.value,
+            publishedYear:py.value,
+            available:available.value
+        }
+        await fetch("https://library-management-syste-26d3b-default-rtdb.asia-southeast1.firebasedatabase.app/Books.json",{
+            method:"POST",
+            header:{"content-Type":"application/json"},
+            body:JSON.stringify(d)
+        });
+            title.value=''
+            genre.value=''
+            author.value=''
+            py.value=''
+            available.value=''
+            fetchdata()
+            display()
+    }
+    async function addmember() {
+       let name=document.getElementById("name")
+       let active=document.getElementById("active")
+       let py=document.getElementById("py")
+
+       let d={
+        title:name.value,
+        membershipDate:py.value,
+        active:active.value
+       }
+       console.log(d)
+        await fetch("https://library-management-syste-26d3b-default-rtdb.asia-southeast1.firebasedatabase.app/Members.json",{
+            method:"POST",
+            header:{"content-Type":"application/json"},
+            body:JSON.stringify(d)
+        });
+        fetchdata()
+        display()
+    }
+    function filtering(){
+        let genre=document.getElementById("genre")
+        let author=document.getElementById("author")
+        let availability=document.getElementById("availability")
+        let active=document.getElementById("active")
+        let membershipDate=document.getElementById("membershipDate")
+        let filterdatab=[]
+        let filterdatam=[]
+        let f=genre.value || author.value || availability.value || ''
+        let fm=actve.value || membershipDate.value || ''
+        if(f){
+            filterdatab=books.filter((e)=>{
+                return f==e
+            })
+        }
+
+        if (!filterb && sortb){
+            let data=[...books]
+            data.sort((a,b)=>{
+                if (sortb=="book-asc") return a.name.localeCompare(b.name)
+                if (sortb=="book-asc") return b.name.localeCompare(a.name)
+            })
+            
+        }
+        if (!filterm && sortm){
+            let data=[...books]
+            data.sort((a,b)=>{
+                if (sortb=="book-asc") return a.name.localeCompare(b.name)
+                if (sortb=="book-asc") return b.name.localeCompare(a.name)
+            })
+        }
+    }
+    function display(){
+        let con1=document.getElementById("books")
+        con1.innerHTML=''
+        books.forEach((e)=>{
+            let div=document.createElement("div")
+            div.innerHTML=`
+                <span>title:${e.title}</span><br>
+                <span>author:${e.author}</span><br>
+                <span>genre:${e.genre}</span><br>
+                <span>published Year:${e.publishedYear}</span><br>
+                <span>available:${e.available}</span><br>
+            `
+            con1.appendChild(div)
+        })
+        let con2=document.getElementById("members")
+        con2.innerHTML=''
+        members.forEach((e)=>{
+            let div=document.createElement("div")
+            div.innerHTML=`
+                <span>title:${e.name}</span><br>
+                <span>membership Date:${e.membershipDate}</span><br>
+                <span>active:${e.active}</span><br>
+            `
+            con2.appendChild(div)
+        })
+    }
+    fetchdata()
+</script>
+</html>

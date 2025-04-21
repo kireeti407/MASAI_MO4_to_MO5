@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 0%;
+        }
+        header{
+            display: flex;
+            justify-content: space-around;
+            border: 1px solid;
+            margin: 0%;
+            height: 50px;
+            align-items: center;
+        }
+        button{
+            height: 30px;
+            background-color: rgb(97, 97, 97);
+            color: white;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+        button:hover{
+            color: white;
+            background-color: rgba(90, 90, 90, 0.432);
+        }
+
+        main{
+            margin-top: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        #con1 div{
+            border: 1px solid;
+            text-align: center;
+
+        }
+        #con1{
+            margin-top: 20px;
+            width: 80%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+            gap: 10px;
+        }
+        form{
+        
+            width: 60%;
+            margin: auto;
+        
+        }
+        #con2{
+        
+            margin: auto;
+            display: flex;
+            gap: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div>Student Profile Dashboard</div>
+        <div>
+            <button id="dark">Dark Mode</button>
+            <button id="light">ligth Mode</button>
+        </div>
+    </header>
+    <main>
+        <h1>Student profile</h1>
+        <div id="con1">
+        </div>
+        <h1>filter</h1>
+        <div id="con2">
+            <input type="text" placeholder="find by name"><button id="sort" onclick="sort()">sort by name</button ></div>
+        <h1>Add student </h1>
+        <form action="" >
+            <label for="name">Name:</label>
+            <input type="text" id="name"><br><br>
+            <label for="age">Age:</label>
+            <input type="number" id="age"><br><br>
+            <label for="email">Email</label>
+            <input type="email" id="email"><br><br>
+            <label for="course">course:</label>
+            <select name="" id="course">
+                <option value="cse">CSE</option>
+                <option value="ece">ECE</option>
+                <option value="eee">EEE</option>
+                <option value="civil">Civil</option>
+                <option value="mech">MECH</option>
+            </select><br><br>
+            <label for="skills">Gender:</label>
+            <label for="male">male</label>
+            <input type="radio" name="gender" id="gender" value="male">
+            <label for="female">female:</label>
+            <input type="radio" name="gender" id="genders" value="female"><br><br>
+            <label for="skills">Skills:</label>
+            <label for="DSA">DSA</label> <input type="checkbox" id="dsa">
+            <label for="mern">MERN</label> <input type="checkbox" id="mern">
+            <label for="python">python</label> <input type="checkbox" id="python"><br>
+            <br>
+        </form>
+        <button onclick="postdata()" style="margin-left: 30%;">submit</button>
+        
+    </main>
+</body>
+    <script>
+        let dark=document.getElementById("dark")
+        let light=document.getElementById("light")
+        dark.addEventListener("click",()=>{
+            let body=document.querySelector("body")
+            body.style.backgroundColor="black"
+            body.style.color="white"
+        })
+        light.addEventListener("click",()=>{
+            let body=document.querySelector("body")
+            body.style.backgroundColor="white"
+            body.style.color="black"
+
+        })
+
+        let store=[]
+        async function fetchdata() {
+            try{
+                let res=await fetch("https://student-profile-dashboar-26210-default-rtdb.asia-southeast1.firebasedatabase.app/Students.json")
+                let data= await res.json()
+                let studentd=Object.entries(data).map(([id,data])=>{
+                    return {id,...data}
+                })
+                store=[...studentd]
+                if(!data){
+                    throw Error
+                }
+            }
+            catch(err){
+                alert("somthing went wrong")
+            }
+            display(store)
+        }
+    
+        async function postdata(){
+            try{
+                let name=document.getElementById("name")
+                let age=document.getElementById("name")
+                let email=document.getElementById("email")
+                let course=document.getElementById("course")
+                let gender=document.getElementById("gender")
+                let DSA=document.getElementById("dsa").checked || 0
+                let python=document.getElementById("python").checked || 0
+                let mern=document.getElementById("mern").checked || 0
+                let skills=[]
+                if(DSA) skills.push("dsa")
+                if(python) skills.push("python")
+                if(mern) skills.push("mern")
+                let d={
+                    Name:name.value,
+                    Age:age.value,
+                    Email:email.value,
+                    Course:course.value,
+                    Gender:gender.value,
+                    Skill:skills
+                }
+
+                let res=await fetch("https://student-profile-dashboar-26210-default-rtdb.asia-southeast1.firebasedatabase.app/Students.json",{
+                    method:"POST",
+                    header:{"content-Type":"Application/json"},
+                    body:JSON.stringify(d)
+                });
+                fetchdata()
+
+            }catch(err){
+               
+                alert("data is not fetch")
+            }
+            
+        }
+        
+        function display(studentdata){
+            let con1=document.getElementById("con1")
+            con1.innerHTML=''
+            if(studentdata.length>0){
+                studentdata.forEach((e)=>{
+                    let div=document.createElement("div")
+                    let s=''
+                    e.Skill.forEach(i=>s+=(i+" "))
+                    div.innerHTML=`
+                        <p>Name:${e.Name}</p>
+                        <p>Age:${e.Age}</p>
+                        <p>Course:${e.Course}</p>
+                        <p>Email:${e.Email}</p>
+                        <p>Gender:${e.Gender}</p>
+                        <p>Skills:${s}
+                    `
+                    con1.appendChild(div)
+                })
+            }
+        }
+        
+         function sort(){
+            let sorted=[...store]
+             sorted.sort((a,b)=>{
+                return a.Name.localeCompare(b.Name)
+            })
+            display(sorted)
+         }
+        fetchdata()
+    </script>
+</html>
