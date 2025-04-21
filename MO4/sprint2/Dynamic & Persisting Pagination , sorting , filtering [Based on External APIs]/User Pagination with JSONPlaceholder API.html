@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body>div{
+            width: 80%;
+            margin: auto;
+            text-align: center;
+        }
+        #con{
+            margin: auto;
+            display: flex;
+            grid-template-columns: repeat(auto-fill,1fr);
+            gap: 5px;
+            padding-bottom: 20px;
+        }
+        #con>div{
+            margin: auto;
+            width: 50%;
+            border: 1px solid;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>users data</h1>
+        <div id="con">
+
+        </div>
+        <button id="prev" onclick="prev()">privious</button>
+        <button id="next" onclick="next()">next</button>
+    </div>
+
+    
+</body>
+<script>
+    let page=1
+    async function fetchdata(page){
+        try{
+            let pre=document.getElementById("prev")
+            if(page==1){
+                pre.disable=true
+            }
+            let con=document.getElementById("con")
+            con.innerHTML=''
+            let res=await fetch(`https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=3`)
+            let data=await res.json()
+            data.forEach((e)=>{
+                let div=document.createElement("div")
+                div.innerHTML=`
+                    <span><b>Name</b>:${e.name}</span><br>
+                    <span><b>Phone No</b>:${e.phone}</span><br>
+                    <span><b>Email</b>:${e.email}</span><br>
+                    <span><b>website</b>:<a href="${e.website}">${e.website}</span><br>
+                `
+                con.appendChild(div)
+            })
+            
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+    function next(){
+        page+=1
+        fetchdata(page)
+    }
+    function prev(){
+        if(page){
+            page-=1
+            fetchdata(page)
+        }
+    }
+    fetchdata(page)
+</script>
+</html>

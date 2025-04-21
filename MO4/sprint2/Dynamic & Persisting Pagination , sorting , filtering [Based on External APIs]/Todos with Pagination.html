@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #main{
+            width: 60%;
+            margin: auto;
+        }
+        #con1{
+            margin: auto;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+           
+        }
+        #con>div{
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 5px;
+            height: 30px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+        }
+        #con2{
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            gap: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="con">
+
+        </div>
+    </div>
+    <div id="con2">
+        <button onclick="page(1,10)">1</button><button onclick="page(1,20)">2</button><button onclick="page(2,30)">3</button><button onclick="page(2,40)">4</button><button onclick="page(3,50)">5</button><button onclick="page(3,60)">6</button><button onclick="page(4,70)">7</button><button onclick="page(4,80)">8</button><button onclick="page(5,90)">9</button><button onclick="page(5,100)">10</button>
+    </div>
+<script>
+   
+    let con1=document.getElementById("con")
+    async function fetchdata(userid,end){
+        con1.innerHTML=''
+        let res=await fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userid}`)
+        let data=await res.json()
+        data.forEach((e,i)=> {
+            
+            let div=document.createElement("div")
+            let input=document.createElement("input")
+            input.type="checkbox"
+            input.checked=e.completed
+            div.innerHTML=`<span>${e.title}</span>`
+            div.appendChild(input)
+            con1.append(div)
+            
+        });
+
+    }
+    function page(userid,end){
+            fetchdata(userid,end)
+        }
+    fetchdata(1,10)
+</script>
+</html>
