@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        #container{
+            width: 50%;
+            margin: auto;
+        }
+        img{
+            width: 100%;
+        }
+        button{
+            margin: 10px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>image is loading...</h1>
+    </div>
+    <button id="previous">Previous</button><button id="next">Next</button>
+</body>
+<script>
+    let container=document.getElementById("container")
+    let c=0
+    async function fetchdata(c) {
+        container.innerHTML=`<h1>image is loading...</h1>`
+        let res=await fetch(`https://picsum.photos/600/40${c}?random`)
+        console.log(res.url)
+        container.innerHTML=`
+            <img src="${res.url}" />
+        `
+    }
+    let timmer;
+    let next=document.getElementById("next")
+    let previous=document.getElementById("previous")
+    let cli=0
+    next.addEventListener("click",()=>{
+        cli++
+        if(cli>3) {
+            alert("Chill chill, loading it!!")
+        }
+        clearTimeout(timmer)
+        timmer=setTimeout(()=>{
+            c++
+            cli=0
+            fetchdata(c)
+        },1000)
+    });
+    previous.addEventListener("click",()=>{
+        if(c>0){
+            cli++
+            if(cli>3) alert("Chill chill, loading it!!")
+            clearTimeout(timmer)
+            timmer= setTimeout(()=>{
+                c--
+                cli=0
+                fetchdata(c)
+
+            },1000)
+        }
+        else{
+            c=0
+            alert("your at bigining")
+        }
+    })
+
+    fetchdata(0)
+</script>
+</html>

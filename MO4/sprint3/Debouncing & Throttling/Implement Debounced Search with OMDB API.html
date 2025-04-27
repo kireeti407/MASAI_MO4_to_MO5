@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       body{
+        text-align: center;
+       }
+        #results{
+            display: grid;
+            grid-template-columns:repeat(6,1fr);
+            gap: 20px;
+            width: 80%;
+            margin: auto;
+            margin-top: 10px;
+        }
+        img{
+            width: 100%;
+        }
+        .part{
+            border: 1px solid;
+            text-align: center;
+      
+        }
+        input{
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <label for="moviename">Movie name: </label><input type="text" id="moviename" placeholder="enter movie name">
+    <div id="results">
+
+    </div>
+</body>
+<script>
+    let input=document.getElementById("moviename")
+    let results=document.getElementById("results")
+    let timer;
+    input.addEventListener('input',(e)=>{
+            clearTimeout(timer)
+            timer =setTimeout(async()=>{
+                let res=await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=a728b74f&s=${e.target.value}`)
+                let data= await res.json()
+                if(data) fetchdata(data.Search)
+        },500)
+        
+    })
+    function fetchdata(data){
+        results.innerHTML=''
+        data.forEach((e)=>{
+
+            let div=document.createElement("div")
+            div.classList.add("part")
+            div.innerHTML=`
+                <img src="${e.Poster}" />
+                <span><b>title:</b>${e.Title}</span><br>
+                <span><b>title:</b>${e.Type}</span>
+            `
+            results.appendChild(div)
+        })
+
+    }
+
+</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <style>
+        *{
+            padding: 0%;
+            margin: 0%;
+
+        }
+       body{
+        background-color: lightgray;
+       }
+        #con{
+            position: absolute;
+            left: 40%;
+            top: 30%;
+            width:300px;
+            padding: 30px 20px;
+            margin: auto;
+            text-align: center;
+            border: 1px solid lightgray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: white;
+
+        }
+        input{
+            padding:10px 20px;
+            border-radius: 5px;
+            border: 1px solid lightgray;
+            width: 80%;
+        }
+        button{
+            width: 80%;
+            height: 30px;
+        }
+        a{
+            display: none;
+        }
+        
+    
+    </style>
+</head>
+<body>
+    <div id="con">
+        <h3>Register</h3>
+        <input type="gmail" placeholder="enter email" id="email">
+        <input type="password" placeholder="enter password" id="password">
+        <button id="register">register</button>
+        <p id="msg"></p><a href="./login.html">singup</a>
+    </div> 
+</body>
+<script type="module"> 
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+    import {getAuth,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyCDcDDtwFScVP0hHa1LHOP0zjkdA-p5-3o",
+      authDomain: "data-46361.firebaseapp.com",
+      databaseURL: "https://data-46361-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "data-46361",
+      storageBucket: "data-46361.firebasestorage.app",
+      messagingSenderId: "796606772166",
+      appId: "1:796606772166:web:ad3660a2b8bfd8109678c7",
+      measurementId: "G-4SXBK4Z1Z4"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth=getAuth(app)
+    let rigister=document.getElementById("register")
+    rigister.addEventListener("click",async()=>{
+        
+        let email=document.getElementById("email").value
+        let password=document.getElementById("password").value
+        if(email.trim() && password.trim()) {
+            try{
+                let res=await createUserWithEmailAndPassword(auth,email,password)
+                window.location.href="./dashboard.html"
+            }
+            catch(err){
+                let msg=document.getElementById("msg")
+                let a=document.querySelector("a")
+                msg.innerText="user alrady exist with that email"
+                a.style.display="inline"
+            }
+        }
+        else alert("enter credential correctly")
+        
+
+    })
+  
+  </script>
+
+</html>
