@@ -1,0 +1,32 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#con{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 400px;
+    height: 300px;
+    gap: 10px;
+    padding-bottom: 30px;
+    margin-top: 10%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+input{
+    height: 30px;
+    width: 78%;
+}
+select{
+    width: 80%;
+    height: 30px;
+}
+button{
+    width: 80%;
+    height: 30px;
+    background-color: rgb(159, 159, 238);
+    border: none;
+    color: white;
+}

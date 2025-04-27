@@ -8,19 +8,19 @@
 </head>
 <body>
     <div id="con">
-        <h3>login</h3>
+        <h3>sign-up</h3>
         <input type="email" id="email" placeholder="enter email">
         <input type="password" id="password" placeholder="enter password">
         <select name="" id="role">
             <option value="user">user</option>
             <option value="admin">admin</option>
         </select>
-        <button>Login</button>
+        <button id="sinup">sign-up</button>
     </div>
 </body>
 <script type="module">
- //Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+     //Import the functions you need from the SDKs you need
+     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
   import { getAuth , createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   // TODO: Add SDKs for Firebase products that you want to use
@@ -43,15 +43,23 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const auth = getAuth(app);
-  
-  try{
-    await signInWithEmailAndPassword(auth, email, password)
-  }
-  catch(err){
-    alert("somthing went wrong")
-  }
-  
 
 
+  let signup=document.getElementById("sinup")
+  signup.addEventListener("click",async()=>{
+    try{
+        let email=document.getElementById("email").value
+        let password=document.getElementById("password").value
+        let role=document.getElementById("role").value
+        let res=await createUserWithEmailAndPassword(auth, email, password)
+        await fetch("https://e-commerce-admin-panel-923a5-default-rtdb.asia-southeast1.firebasedatabase.app/Users.json",{
+            method:"POST",
+            header:{"content-Type":"application/json"},
+            body:JSON.stringify({email,role})
+        })
+    }catch(err){
+        console.log(err)
+    }
+  })
 </script>
 </html>
